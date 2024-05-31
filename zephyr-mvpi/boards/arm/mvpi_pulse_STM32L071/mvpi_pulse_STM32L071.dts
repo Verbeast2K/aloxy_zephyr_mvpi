@@ -1,0 +1,165 @@
+/dts-v1/;
+#include <st/l0/stm32l071Xb.dtsi>
+#include <st/l0/stm32l071c(b-z)tx-pinctrl.dtsi>
+// #include "mvpi_pulse_STM32L071-pinctrl.dtsi"
+// #include <zephyr/dt-bindings/input/input-event-codes.h>
+
+/ {
+	model = "mvpi_pulse";
+	compatible = "aloxy,mvpi_pulse";
+
+	// aliases {
+		//     spi-flash0 = &spi1;
+	// };
+
+	chosen {
+		zephyr,console = &usart2;
+		zephyr,shell-uart = &lpuart1;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+	};
+
+	gpio_keys {
+		compatible = "gpio-keys";
+		button1: button1 {
+			gpios = <&gpioc 13 GPIO_ACTIVE_HIGH>;
+		};
+		button2: button2 {
+			gpios = <&gpioa 0 GPIO_ACTIVE_HIGH>;
+		};
+		// mcu2modemint: mcu2modemint{
+			//     gpios = <&gpiob 12 GPIO_ACTIVE_HIGH>;
+		// };
+		// modem2mcuint: modem2mcuint{
+			//     gpios = <&gpioa 5 GPIO_ACTIVE_HIGH>;
+		// };
+		// nrst: nrst {
+			//     gpios = <&gpioa 4 GPIO_ACTIVE_HIGH>;
+		// };
+	};
+
+	modem_interface {
+		compatible = "aloxy,modem_interface";
+		state_pin-gpios = <&gpiob 12 GPIO_ACTIVE_HIGH>;
+		target_state_pin-gpios = <&gpioa 5 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
+};
+
+&lpuart1 {
+	pinctrl-0 = <&lpuart1_tx_pb11 &lpuart1_rx_pb10>;
+	pinctrl-1 = <&analog_pb10 &analog_pb11>;
+	pinctrl-names = "default", "sleep";
+	current-speed = <115200>;
+	status = "okay";
+
+	dmas = <&dma1 2 5 (STM32_DMA_PERIPH_TX | STM32_DMA_PRIORITY_HIGH)>,
+	       <&dma1 3 5 (STM32_DMA_PERIPH_RX | STM32_DMA_PRIORITY_HIGH)>;
+	dma-names = "tx", "rx";
+};
+
+&usart2 {
+	pinctrl-0 = <&usart2_tx_pa2 &usart2_rx_pa3>;
+	pinctrl-names = "default";
+	current-speed = <115200>;
+	status = "okay";
+};
+
+// &spi1 {
+	//     status = "okay";
+	//     pinctrl-0 = <&spi1_MOSI_pb5 &spi1_MISO_pb4>;
+	//     pinctrl-names = "default";
+	//     spi_flash: mx25r8035f@0 {
+		//         compatible = "jedec,spi-nor";
+		//         reg = <0>;
+		//         spi-max-frequency = <80000000>;
+		//         jedec-id = [ c2 28 14  ];
+		//         size = <DT_SIZE_M(1)>; /* 8 Mbits (1MB) */
+		//         // reset-gpios = <&gpiod 3 GPIO_ACTIVE_LOW>;
+		//         // reset-gpios-duration = <1>;
+		//         // spi-bus-width = <4>;
+		//         status = "okay";
+	//     };
+// };
+
+// &spi2 {
+	//     pinctrl-0 = <&spi2_nss_pb12 &spi2_sck_pb13
+	//              &spi2_miso_pb14 &spi2_mosi_pb15>;
+	//     pinctrl-names = "default";
+	//     status = "okay";
+// };
+
+&i2c1 {
+	pinctrl-0 = <&i2c1_scl_pb6 &i2c1_sda_pb7>;
+	pinctrl-names = "default";
+	status = "okay";
+	clock-frequency = <I2C_BITRATE_STANDARD>;
+
+	ledcontroller: sc620@70 {
+		compatible = "st,sc620";
+		status = "okay";
+		reg = <0x70>;
+		enable-gpios = <&gpioh 0 GPIO_ACTIVE_HIGH>;
+		brightness = <0x3F>;
+
+		led0: led_0 {
+			idx_red = <3>;
+			idx_green = <0>;
+		};
+
+		led1: led_1 {
+			idx_red = <4>;
+			idx_green = <5>;
+		};
+	};
+};
+
+&clk_lse {
+	status = "okay";
+};
+
+// &clk_hsi48 {
+	//         status = "okay";
+// };
+
+&dma1 {
+	status = "okay";
+	// dma-channels = <7>;
+};
+
+&clk_hsi {
+	status = "okay";
+};
+
+&pll {
+	div = <2>;
+	mul = <4>;
+	clocks = <&clk_hsi>;
+	status = "okay";
+};
+
+&rcc {
+	clocks = <&pll>;
+	clock-frequency = <DT_FREQ_M(32)>;
+	ahb-prescaler = <1>;
+	apb1-prescaler = <1>;
+	apb2-prescaler = <1>;
+};
+
+stm32_lp_tick_source: &lptim1 {
+	status = "okay";
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		/* Set aside 32KiB for data at the end of the 192KiB flash */
+		storage_partition: partition@28000 {
+			label = "storage";
+			reg = <0x00028000 DT_SIZE_K(32)>;
+		};
+	};
+};

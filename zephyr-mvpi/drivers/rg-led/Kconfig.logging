@@ -1,0 +1,3 @@
+module = SC620
+module-str = sc620
+source "subsys/logging/Kconfig.template.log_config"

@@ -1,0 +1,17 @@
+description: 
+
+compatible: st,sc620
+
+include: "i2c-device.yaml"
+
+properties:
+  reg:
+    required: true
+  
+  enable-sc620:
+    type: phandle
+    
+    required: true
+    
+    description: |
+      GPIO to use to enable/disable the controller.

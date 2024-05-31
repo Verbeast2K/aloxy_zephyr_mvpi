@@ -1,0 +1,12 @@
+
+# SC620 I2C LED Controller configuration options
+
+config SC620
+    bool "SC620 - I2C LED CONTROLLER"
+    default y
+    depends on DT_HAS_ST_SC620_ENABLED
+    select I2C
+    help
+        Enable I2C-based driver for SC620
+
+rsource "Kconfig.logging"

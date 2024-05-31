@@ -1,0 +1,14 @@
+description: Definition of hardware used by the modem interface
+
+compatible: "aloxy,modem_interface"
+
+properties:
+  state_pin-gpios:
+    type: phandle-array
+    required: true
+    description: A reference to the pin that will be used by the application_mcu to indicate its state.
+
+  target_state_pin-gpios:
+    type: phandle-array
+    required: true
+    description: A reference to the pin that will be used by the application_mcu to sample the state of its communication partner.

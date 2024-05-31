@@ -1,0 +1,27 @@
+# ALOXY CONFIDENTIAL
+# __________________
+#  [2017] - [2024] Aloxy nv
+# All Rights Reserved.
+#  NOTICE: All information contained herein is, and remains
+# the property of aloxy nv and its suppliers,
+# if any. The intellectual and technical concepts contained
+# herein are proprietary to Aloxy nv
+# and its suppliers and may be covered by patents and
+# patents in process, and are protected by trade secret or copyright law.
+# Dissemination of this information or reproduction of this material
+# is strictly forbidden unless prior written permission is obtained
+# from Aloxy nv.
+
+child-binding:
+  description: LED child node
+  properties:
+    idx_red:
+      type: int
+      required: true
+      description: |
+        Index of the red LED on the controller.
+    idx_green:
+      type: int
+      required: true
+      description: |
+        index of the green LED on the controller.

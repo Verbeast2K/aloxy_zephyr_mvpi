@@ -1,0 +1,3 @@
+config BOARD_MVPI_PULSE_STM32L071    
+    bool "Pulse board"
+    select STM32L071XX

@@ -1,0 +1,16 @@
+description: ST SC620 LED controller
+
+compatible: "st,sc620"
+
+include: ["i2c-device.yaml", "rg-led.yaml"]
+
+properties:
+  enable-gpios:
+    type: phandle-array
+    description: |
+      GPIO to use to enable/disable the led controller
+  brightness:
+    type: int
+    default: 0x00
+    description: |
+      Setting for Dimming register to control LED brightness on the controller

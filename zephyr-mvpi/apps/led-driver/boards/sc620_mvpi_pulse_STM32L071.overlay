@@ -1,0 +1,18 @@
+// &gpio_keys {
+//     compatible="gpio-keys"
+//     enable_sc620: enable_sc620 {
+//         gpios = <&gpioh 0 GPIO_ACTIVE_HIGH>;
+//     };
+
+// };
+
+// &i2c1 {
+// 	status = "okay";
+// 	clock-frequency = <I2C_BITRATE_STANDARD>;
+
+// 	sc620: sc620@e0 {
+// 		compatible = "st,sc620";
+// 		label = "sc620";
+// 		reg = < 0xe0 >;
+// 	};
+// };

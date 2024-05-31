@@ -1,0 +1,5 @@
+board:
+  name: mvpi_pulse_STM32L071
+  vendor: aloxy
+  socs:
+    - name: stm32l071xx

@@ -1,0 +1,55 @@
+# Copyright (c) 2021 Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
+#
+# This file is the application Kconfig entry point. All application Kconfig
+# options can be defined here or included via other application Kconfig files.
+# You can browse these options using the west targets menuconfig (terminal) or
+# guiconfig (GUI).
+
+menu "Zephyr"
+source "Kconfig.zephyr"
+endmenu
+
+module = app
+module-str = app
+
+menu "statemachine"
+    menu "Logging"
+    
+        config LOG
+            bool "Logging"
+            select PRINTK if USERSPACE
+            help
+                Global switch for the logger, when turned off log calls will not be
+                compiled in.
+
+        if LOG
+
+            module = SERIAL_INTERFACE
+            module-str = serial_interface
+            osource "subsys/logging/Kconfig.template.log_config"
+
+            module = MODEM
+            module-str = modem
+            osource "subsys/logging/Kconfig.template.log_config"
+
+            module = HEARTBEAT
+            module-str = heartbeat
+            osource "subsys/logging/Kconfig.template.log_config"
+
+            module = SM
+            module-str = sm
+            osource "subsys/logging/Kconfig.template.log_config"
+
+            module = EVENT_HANDLER
+            module-str = event_handler
+            osource "subsys/logging/Kconfig.template.log_config"
+
+            module = SC620
+            module-str = sc620
+            osource "subsys/logging/Kconfig.template.log_config"
+
+        endif # LOG
+
+    endmenu
+endmenu

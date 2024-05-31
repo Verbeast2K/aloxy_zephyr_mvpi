@@ -1,0 +1,7 @@
+
+/ {
+    chosen {
+        aloxy,modem_interface-uart = &lpuart1;
+    };
+};
+

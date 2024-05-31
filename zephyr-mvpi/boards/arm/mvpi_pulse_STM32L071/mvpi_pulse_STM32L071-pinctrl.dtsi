@@ -1,0 +1,18 @@
+#include <st/l0/stm32l071.dtsi>
+
+// &pinctrl {
+//     usart2_default: usart2 {
+//         group1 {
+//             pinmux = <USART2_TX_GPIOA2>;
+//         };
+//         group2 {
+//             pinmux = <USART2_RX_GPIOA3>;
+//             bias-pull-up;
+//         };
+//     }
+    // gpioa_default: gpioa {
+    //     group1 {
+    //         pinmux = <>;
+    //     };
+    // }
+// };
